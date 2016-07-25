@@ -1,0 +1,95 @@
+<!DOCTYPE HTML>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Roboevents</title>
+<meta name="description" content="A 3D globe showing the locations and elevations of 1406 volcanoes on planet earth rendered with WebGL.">
+<meta property="og:image" content="http://volcanoes.travel-channels.com/img/volcanoes-globe-preview.jpg">
+<link rel="shortcut icon" href="/img/favicon.png">
+<link rel="stylesheet" type="text/css" href="w3css.css">
+<link href='https://fonts.googleapis.com/css?family=Cuprum' rel='stylesheet' type='text/css'>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.2/jquery.min.js"></script>
+<script src="http://ajax.aspnetcdn.com/ajax/jQuery/jquery-1.12.2.min.js"></script>
+<style type="text/css">
+html {height: 100%;}
+body {
+margin: 0;
+padding: 0;
+background: #000 url('loading.gif') center center no-repeat;
+color: #fff;
+font: 13px/20px;
+height: 100%;
+}
+
+a{color: #FFFFFF;text-decoration: none;
+font-family: 'Cuprum', sans-serif;}
+button{font-family: 'Cuprum', sans-serif;
+border-radius:2px;}
+.bull {padding: 0 5px;color: #555;}
+h3{
+text-align:center;
+color:#FFFFFF;
+}
+#info{
+width:22%;
+position:absolute;
+top:1.5%;
+right:2%;
+}
+#Events{
+max-height:150px;
+overflow:auto;
+}
+</style>
+</head>
+<body>
+
+<div id="container"></div>
+<div id="title">
+	
+</div>	
+<script type="text/javascript" src="detector-threejs.min.js"></script>
+<script type="text/javascript" src="globe.js"></script>
+<script type="text/javascript">
+if(!Detector.webgl){
+    Detector.addGetWebGLMessage();
+} else {
+    var container = document.getElementById('container');
+    var globe = new DAT.Globe(container);
+    var xhr = new XMLHttpRequest();
+
+    xhr.open('GET', '/Globe/accidents.json', true);
+    xhr.onreadystatechange = function(e) {
+        if (xhr.readyState === 4 && xhr.status === 200) {
+            var data = JSON.parse(xhr.responseText);
+	    for(var i=1; i<data.length; i+=2){
+           	 globe.addData( data[i], {format: 'magnitude', name: data[i][0]} );
+           	 globe.createPoints();
+	    }
+            globe.animate();
+            document.body.style.backgroundImage = 'none';
+        }
+    };
+    xhr.send(null);
+}
+</script>
+<script type="text/javascript">								
+	$(document).ready(function(){
+		$("div div").children("#Events").prev().click(function(){
+			$(this).next().toggleClass("w3-show");
+		});	
+		$("a").hover(function(){
+			$(this).css("background-color","#FFFFFF");
+			$(this).css("color","#000000");
+		},function(){
+			$(this).css("background-color","#000000");
+			$(this).css("color","#FFFFFF");
+		});	
+				
+	});
+</script>
+
+
+</body>
+</html>
+
