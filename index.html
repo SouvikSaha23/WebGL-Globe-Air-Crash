@@ -58,12 +58,12 @@ if(!Detector.webgl){
     var globe = new DAT.Globe(container);
     var xhr = new XMLHttpRequest();
 
-    xhr.open('GET', '/Globe/accidents.json', true);
+    xhr.open('GET', '/WebGL-Globe-Air-Crash/accidents.json', true);
     xhr.onreadystatechange = function(e) {
         if (xhr.readyState === 4 && xhr.status === 200) {
             var data = JSON.parse(xhr.responseText);
-	    for(var i=1; i<data.length; i+=2){
-           	 globe.addData( data[i], {format: 'magnitude', name: data[i][0]} );
+	    for(var i=0; i<data.length; i+=1){
+           	 globe.addData( data[i][1],data[i][2]);
            	 globe.createPoints();
 	    }
             globe.animate();

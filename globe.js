@@ -64,7 +64,7 @@ DAT.Globe = function(container) {
 
   var overRenderer;
 
-  var imgDir = '/Globe/';
+  var imgDir = '/WebGL-Globe-Air-Crash/';
 
   var curZoomSpeed = 0;
   var zoomSpeed = 50;
@@ -84,7 +84,7 @@ DAT.Globe = function(container) {
     container.style.font = '13px/20px Arial, sans-serif';
 
     var shader, uniforms, material;
-    w = container.offsetWidth*0.6 || window.innerWidth*0.6;
+    w = container.offsetWidth || window.innerWidth;
     h = container.offsetHeight || window.innerHeight;
 
     camera = new THREE.PerspectiveCamera(30, w / h, 1, 10000);
@@ -159,18 +159,14 @@ DAT.Globe = function(container) {
     }, false);
   }
 
-  addData = function(data, color_data) {
-
-	console.log(color_data[0]);
-	console.log(color_data[1]);
-	console.log(color_data[2]);
+  addData = function(data,color_data) {
     var lat, lng, size, i, color= new THREE.Color().setHSL(color_data[0],color_data[1],color_data[2]),
         subgeo = new THREE.Geometry();
 
     for (i = 0; i < data.length; i += 3) {
       lat = data[i];
       lng = data[i + 1];
-      size = data[i + 2];
+      size = data[i + 2] * 100;
       addPoint(lat, lng, size, color, subgeo);
 	console.log(lat,lng);
     }
